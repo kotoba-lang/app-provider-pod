@@ -1,4 +1,4 @@
 {:schema "etzhayyim.repository/v1"
- :name "com-etzhayyim-app-provider-pod"
+ :name "app-provider-pod"
  :kind :app
  :canonical-metadata :edn}
