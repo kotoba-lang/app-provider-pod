@@ -50,7 +50,7 @@
           "APP_DISPLAY_NAME" "APP_FRAMEWORK" "APP_NANOID" "APP_PERFORMER_TYPE"
           "APP_UI_TYPE"]
    :xrpc? true
-   :relative-path "appview/provider-pod-mcp-component/cljs/src/provider_pod/app.cljs"})
+   :relative-path "appview/provider-pod-mcp-component/cljs/src/provider_pod/app.cljk"})
 
 (rf/reg-event-db
  :initialize-db
