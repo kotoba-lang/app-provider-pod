@@ -1,0 +1,34 @@
+(ns provider-pod.surface-parity-test
+  "aiueos/providerpod_surface.cljk（判定コア）と app.cljk の宣言 x
+  wrangler.jsonc の整合の parity。宣言が実設定と一致することを実データで照合。"
+  (:require [clojure.test :refer [deftest is testing]]
+            [clojure.string :as str]
+            ["fs" :as fs]))
+
+(def default-db
+  ;; app.cljk の default-db（field for field）
+  {:name "provider-pod-mcp-component"
+   :kind "appview"
+   :route-count 2
+   :routes ["pht0hl9x.etzhayyim.com/*" "provider-pod.etzhayyim.com/*"]
+   :vars ["AGENTGATEWAY_MCP_ROUTER_URL" "APP_CAPABILITIES" "APP_DESCRIPTION"
+          "APP_DISPLAY_NAME" "APP_FRAMEWORK" "APP_NANOID" "APP_PERFORMER_TYPE"
+          "APP_UI_TYPE"]
+   :xrpc? true
+   :relative-path "appview/provider-pod-mcp-component/cljs/src/provider_pod/app.cljk"})
+
+(def wrangler-raw
+  (fs/readFileSync
+   (str/join "/" ["appview" "provider-pod-mcp-component" "wrangler.jsonc"]) "utf8"))
+
+;; jsonc: 行頭コメントのみ除去（URL 内の // は消さない）
+(def wrangler
+  (js->clj (js/JSON.parse (str/replace wrangler-raw #"(?m)^\s*//.*$" "")) :keywordize-keys true))
+
+(deftest declaration-matches-wrangler
+  (testing "guest test-count: route-count はルート数と一致"
+    (is (= (:route-count default-db) (count (:routes default-db)))))
+  (testing "guest test-vars: vars は wrangler の vars キーと一致"
+    (is (= (set (:vars default-db)) (set (map name (keys (:vars wrangler)))))))
+  (testing "guest test-surface: source path の明示"
+    (is (string? (:relative-path default-db)))))
