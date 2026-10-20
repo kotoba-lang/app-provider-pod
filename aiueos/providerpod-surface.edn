@@ -1,0 +1,19 @@
+;; app-provider-pod — itonami（dapp）の aiueos アプリ記述子（notes.edn 形）。
+;; 判定コアは aiueos/providerpod_surface.cljk（面宣言 x 設定の整合判定）。
+;; 正本は appview/provider-pod-mcp-component/cljs/src/provider_pod/app.cljk
+;; （default-db = wrangler.jsonc で訂正済み）。pure（:effects #{}）。
+{:aiueos/component :app/providerpod-surface
+ :aiueos/kind :app
+ :aiueos/trust :untrusted
+ :aiueos/source "providerpod_surface.cljk"
+ :aiueos/wasm "providerpod_surface.wasm"
+ :aiueos/entry "main"
+ :aiueos/args []
+ :aiueos/imports #{}
+ :aiueos/exports #{:app/main
+                   :app/route-count-ok
+                   :app/vars-count-ok
+                   :app/kind-ok
+                   :app/surface-judgment}
+ :aiueos/effects #{}
+ :aiueos/limits {:memory-pages 16 :fuel 5000000}}
